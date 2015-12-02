@@ -1,6 +1,12 @@
-all: Monad.class Maybe.class
+all: Test.class
 
-Maybe.class: Monad.class Maybe.java
+run: Test.class
+	java Test
+
+Test.class: Test.java Maybe.class
+	javac Test.java
+
+Maybe.class: Functor.class Maybe.java
 	javac Maybe.java
 
 Monad.class: Monad.java Functor.class

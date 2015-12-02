@@ -21,4 +21,9 @@ public class Maybe<A> implements Functor<A, Maybe<?>> {
     public static <A> Maybe<A> just(A a){
         return new Maybe(a);
     }
+
+    public String toString(){
+        if(a == null) return "Nothing";
+        return "Just " + a.toString();
+    }
 }
