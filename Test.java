@@ -40,6 +40,16 @@ public class Test {
                 }
             }).toString());
 
+        assert "Right blah".equals(Either.right("blah"));
+        assert "Left 5".equals(Either.left(new Integer(5)));
+        assert new Integer(6).compareTo(
+                Either.right(new Integer(2))
+                .fmap(new Function<Integer, Integer>(){
+                    public Integer apply(Integer x){
+                        return new Integer(x.intValue() * 3);
+                    }
+                }).right) == 0;
+
         System.out.println("Assertions passed");
     }
 }

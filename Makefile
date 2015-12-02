@@ -3,8 +3,11 @@ all: Test.class
 run: Test.class
 	java Test
 
-Test.class: Test.java Maybe.class
+Test.class: Test.java Maybe.class Either.class
 	javac Test.java
+
+Either.class: Either.java Functor.class
+	javac Either.java
 
 Maybe.class: Functor.class Maybe.java
 	javac Maybe.java

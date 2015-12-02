@@ -15,11 +15,11 @@ public class Maybe<A> implements Functor<A, Maybe<?>> {
     }
 
     public static <A> Maybe<A> nothing(){
-        return new Maybe(null);
+        return new Maybe<A>(null);
     }
 
     public static <A> Maybe<A> just(A a){
-        return new Maybe(a);
+        return new Maybe<A>(a);
     }
 
     public String toString(){
