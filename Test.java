@@ -4,16 +4,16 @@ public class Test {
     }
 
     public static void runTests(){
-        assert "Just 4".equals(
-            new Maybe<Integer>(new Integer(3))
+        Maybe<Integer> m = new Maybe<Integer>(new Integer(3))
             .fmap(new Function<Integer, Integer>(){
                 public Integer apply(Integer x){
                     return new Integer(x.intValue() + 1);
                 }
-            }).toString());
+            });
+        assert m.isJust;
+        assert m.val.compareTo(new Integer(4)) == 0;
 
-        assert "Just 28".equals(
-            new Maybe<Integer>(new Integer(3))
+        Maybe<Integer> n = new Maybe<Integer>(new Integer(3))
             .fmap(new Function<Integer, Integer>(){
                 public Integer apply(Integer x){
                     return new Integer(x.intValue() + 1);
@@ -22,10 +22,11 @@ public class Test {
                 public Integer apply(Integer x){
                     return new Integer(x.intValue() * 7);
                 }
-            }).toString());
+            });
+        assert m.isJust;
+        assert m.val.compareTo(new Integer(28)) == 0;
 
-        assert "Nothing".equals(
-            new Maybe<Integer>(new Integer(3))
+        Maybe<Integer> o = new Maybe<Integer>(new Integer(3))
             .fmap(new Function<Integer, Integer>(){
                 public Integer apply(Integer x){
                     return new Integer(x.intValue() + 1);
@@ -38,10 +39,11 @@ public class Test {
                 public Integer apply(Integer x){
                     return new Integer(x.intValue() * 7);
                 }
-            }).toString());
+            });
+        assert !o.isJust;
 
-        assert "Right blah".equals(Either.right("blah"));
-        assert "Left 5".equals(Either.left(new Integer(5)));
+        assert "blah".equals(Either.right("blah").right);
+        assert new Integer(5).compareTo(Either.left(new Integer(5)).left) == 0;
         assert new Integer(6).compareTo(
                 Either.right(new Integer(2))
                 .fmap(new Function<Integer, Integer>(){

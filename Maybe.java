@@ -1,13 +1,15 @@
 public class Maybe<A> implements Functor<A, Maybe<?>> {
-    private final A a;
+    public final A val;
+    public final boolean isJust;
 
     public Maybe(A a){
-        this.a = a;
+        this.val = a;
+        this.isJust = a == null;
     }
 
     public <B> Maybe<B> fmap(Function<A, B> f){
-        if(a == null) return nothing();
-        return just(f.apply(a));
+        if(this.val == null) return nothing();
+        return just(f.apply(this.val));
     }
 
     public Maybe<A> pure(A a){
@@ -23,7 +25,7 @@ public class Maybe<A> implements Functor<A, Maybe<?>> {
     }
 
     public String toString(){
-        if(a == null) return "Nothing";
-        return "Just " + a.toString();
+        if(this.val == null) return "Nothing";
+        return "Just " + this.val.toString();
     }
 }
