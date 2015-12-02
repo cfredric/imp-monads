@@ -1,11 +1,11 @@
-public class Maybe<A> implements Monad<A, Maybe<?>> {
+public class Maybe<A> implements Functor<A, Maybe<?>> {
     private final A a;
 
     public Maybe(A a){
         this.a = a;
     }
 
-    public <B> Maybe<B> bind(Function<A, B> f){
+    public <B> Maybe<B> fmap(Function<A, B> f){
         if(a == null) return nothing();
         return just(f.apply(a));
     }
