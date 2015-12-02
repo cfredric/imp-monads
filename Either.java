@@ -29,16 +29,12 @@ public class Either<A, B> implements Functor<B, Either<?, ?>> {
     }
 
     public <C> Either<A, C> fmap(Function<B, C> f){
-        if(this.isRight){
-            return right(f.apply(this.right));
-        }
+        if(this.isRight) return right(f.apply(this.right));
         return new Either<A, C>(this.left);
     }
 
     public String toString(){
-        if(isRight){
-            return "Right " + this.right.toString();
-        }
+        if(isRight) return "Right " + this.right.toString();
         return "Left " + this.left.toString();
     }
 }
