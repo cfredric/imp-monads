@@ -14,7 +14,7 @@ namespace Monads.UnitTests
         {
             var nothing = new Nothing<int>();
             var result = nothing.FMap<string>(a => a.ToString());
-            Assert.IsInstanceOf<Nothing<int>>(result);
+            Assert.IsInstanceOf<Nothing<string>>(result);
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace Monads.UnitTests
         {
             var nothing = new Nothing<string>();
             var result = nothing.Bind<string>(a => new Just<string>(a));
-            Assert.IsInstanceOf<Just<string>>(result);
+            Assert.IsInstanceOf<Nothing<string>>(result);
         }
 
         [Test]

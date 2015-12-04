@@ -50,7 +50,15 @@ namespace Monads
 
         public Maybe<B> Bind<B>(Func<A, Maybe<B>> f)
         {
-            return f.Invoke(a);
+			try 
+			{
+				var result = f.Invoke(a);
+				return result;
+			}
+			catch (Exception)
+			{
+				return new Nothing<B> ();
+			}
         }
 
         public A Value { get { return a; } }
