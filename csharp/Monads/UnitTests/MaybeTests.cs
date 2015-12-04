@@ -14,15 +14,15 @@ namespace Monads.UnitTests
         {
             var nothing = new Nothing<int>();
             var result = nothing.FMap<string>(a => a.ToString());
-            Assert.IsInstanceOfType(Nothing<int>, result);
+            Assert.IsInstanceOf<Nothing<int>>(result);
         }
 
         [Test]
         public void Nothing_Bind_ReturnsNothing()
         {
-            var nothing = new Nothing<int>();
+            var nothing = new Nothing<string>();
             var result = nothing.Bind<string>(a => new Just<string>(a));
-            Assert.IsInstanceOfType(Nothing<string>, result);
+            Assert.IsInstanceOf<Just<string>>(result);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace Monads.UnitTests
         {
             var just = new Just<string>("42");
             var result = just.FMap<int>(a => Int32.Parse(a));
-            Assert.IsInstanceOfType(Just<int>, result);
+            Assert.IsInstanceOf<Just<int>>(result);
             var actualResult = result as Just<int>;
             Assert.AreEqual(42, actualResult.Value);
         }
@@ -40,7 +40,7 @@ namespace Monads.UnitTests
         {
             var just = new Just<string>("Hello");
             var result = just.FMap<int>(a => Int32.Parse(a));
-            Assert.IsInstanceOfType(Nothing<int>, result);
+            Assert.IsInstanceOf<Nothing<int>>(result);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Monads.UnitTests
             var just = new Just<string>("4");
             var just2 = just.Bind<string>(a => new Just<string>(a + "2"));
             var result = just2.FMap<int>(a => Int32.Parse(a));
-            Assert.IsInstanceOfType(Just<int>, result);
+            Assert.IsInstanceOf<Just<int>>(result);
             var actualResult = result as Just<int>;
             Assert.AreEqual(42, actualResult.Value);
         }
@@ -60,7 +60,7 @@ namespace Monads.UnitTests
             var just = new Just<string>("4");
             var just2 = just.Bind<string>(a => new Nothing<string>());
             var result = just2.FMap<int>(a => Int32.Parse(a));
-            Assert.IsInstanceOfType(Nothing<string>, result);
+            Assert.IsInstanceOf<Nothing<int>>(result);
         }
     }
 }
