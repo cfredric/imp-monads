@@ -39,8 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Functor.cs" />
-    <Compile Include="Monad.cs" />
+    <Compile Include="IFunctor.cs" />
+    <Compile Include="IMonad.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
