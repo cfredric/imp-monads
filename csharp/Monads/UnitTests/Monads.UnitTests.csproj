@@ -50,6 +50,7 @@
     <Compile Include="MonadTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EitherTests.cs" />
+    <Compile Include="ListTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Monads.csproj">
