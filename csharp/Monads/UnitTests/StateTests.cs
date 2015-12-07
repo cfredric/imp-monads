@@ -28,11 +28,10 @@ namespace Monads.UnitTests
                     return new Tuple<int, Stack<int>> (0, s);
                 });
 
-        Func<int, State<Stack<int>, int>> printResult =
-            x => new State<Stack<int>, int> (s => {
-                    Console.WriteLine(x);
-                    return new Tuple<int, Stack<int>> (0, s);
-                });
+        Func<int, State<Stack<int>, int>> doubleResult =
+            x => new State<Stack<int>, int> (s => 
+                    new Tuple<int, Stack<int>> (2*x, s)
+                );
 
         [Test]
         public void State_Stack_pops_pushes()
@@ -77,9 +76,10 @@ namespace Monads.UnitTests
         {
             var man = push(4)
                 .Void (pop)
-                .Bind(printResult);
-            man.runState(new Stack<int> ());
-            // Don't know how to assert this, but that should have printed "4".
+                .Bind(doubleResult);
+
+            var result = man.runState(new Stack<int> ());
+			Assert.AreEqual (8, result.Item1);
         }
     }
 }
