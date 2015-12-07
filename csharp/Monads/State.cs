@@ -39,10 +39,10 @@ namespace Monads
 				);
 		}
 
-		public State<S, B> Void<B> (Func<State<S, B>> f)
+		public State<S, B> Void<B> (State<S, B> s)
 		{
 			// This is the >> operator in Haskell: same thing as Bind, but it ignores its argument.
-			return this.Bind (x => f.Invoke ());
+			return this.Bind (x => s);
 		}
 
 		public Func<S, Tuple<A, S>> Computation { get { return this._runState; } }
@@ -63,6 +63,11 @@ namespace Monads
 			// However, in C# apparently one can't make something similar to type Tuple <null, S>,
 			// so this also returns the state that it just set.
 			return new State<S, S> (s => new Tuple<S, S> (newState, newState));
+		}
+
+		public static Tuple<A, S> runState(State<S, A> computations, S initialState)
+		{
+			return computations._runState.Invoke (initialState);
 		}
 	}
 }

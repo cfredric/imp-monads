@@ -27,9 +27,14 @@ namespace Monads.UnitTests
 		public void State_Stack()
 		{
 			State<Stack<int>, int> manipulations = push (3)
-				.Void (push(4));
+				.Void (push(4))
+				.Void (push(5))
+				.Void (pop);
 
-			var result = manipulations.Computation.Invoke (new Stack<int> ());
+			Tuple<int, Stack<int>> result = State<Stack<int>, int>.runState(manipulations, new Stack<int> ());
+			Assert.AreEqual (5, result.Item1);
+			Assert.Contains (3, result.Item2);
+			Assert.Contains (4, result.Item2);
 		}
 	}
 }
