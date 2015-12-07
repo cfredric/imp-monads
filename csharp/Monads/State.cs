@@ -51,7 +51,7 @@ namespace Monads
         public Func<S, Tuple<A, S>> Computation { get { return this._runState; } }
 
         // A stateful computation that just returns the current state.
-        public State<S, S> getState()
+        public static State<S, S> getState()
         {
             // In Haskell:
             // get = \s -> (s, s)
@@ -60,7 +60,7 @@ namespace Monads
 
         // A stateful operation that replaces the current state with the given
         // state.
-        public State<S, S> putState(S newState)
+        public static State<S, S> putState(S newState)
         {
             // In Haskell, this is implemented as:
             // put newState = \s -> ((), newState)
@@ -70,9 +70,9 @@ namespace Monads
             return new State<S, S> (s => new Tuple<S, S> (newState, newState));
         }
 
-        public static Tuple<A, S> runState(State<S, A> computations, S initialState)
+        public Tuple<A, S> runState(S initialState)
         {
-            return computations.Computation.Invoke (initialState);
+            return this.Computation.Invoke (initialState);
         }
     }
 }
