@@ -29,7 +29,7 @@ namespace Monads.UnitTests
                 });
 
         Func<int, State<Stack<int>, int>> doubleResult =
-            x => new State<Stack<int>, int> (s => 
+            x => new State<Stack<int>, int> (s =>
                     new Tuple<int, Stack<int>> (2*x, s)
                 );
 
@@ -43,8 +43,7 @@ namespace Monads.UnitTests
 
             Tuple<int, Stack<int>> result = manipulations.runState(new Stack<int> ());
             Assert.AreEqual (5, result.Item1);
-            Assert.Contains (3, result.Item2);
-            Assert.Contains (4, result.Item2);
+            Assert.AreEqual (new Stack<int> (new [] { 3, 4, }), result.Item2);
         }
 
         [Test]
@@ -55,7 +54,7 @@ namespace Monads.UnitTests
                 .Void (pushCount)
                 .Void (pushCount);
             Tuple<int, Stack<int>> result = man.runState(new Stack<int> ());
-            Assert.Contains (0, result.Item2);
+            Assert.AreEqual (new Stack<int> (new [] { 0, 1, }), result.Item2);
         }
 
         [Test]
@@ -65,10 +64,7 @@ namespace Monads.UnitTests
                 .Void (State<Stack<int>, Stack<int>>.putState(new Stack<int>(new [] {1, 2, 3, })));
 
             var result = man.runState(new Stack<int> ());
-            Assert.IsFalse(result.Item2.Contains (4));
-            Assert.Contains (1, result.Item2);
-            Assert.Contains (2, result.Item2);
-            Assert.Contains (3, result.Item2);
+            Assert.AreEqual (new Stack<int> (new [] { 1, 2, 3, }), result.Item2);
         }
 
         [Test]
@@ -76,10 +72,25 @@ namespace Monads.UnitTests
         {
             var man = push(4)
                 .Void (pop)
-                .Bind(doubleResult);
+                .Bind (doubleResult);
 
             var result = man.runState(new Stack<int> ());
-			Assert.AreEqual (8, result.Item1);
+            Assert.AreEqual (8, result.Item1);
+            Assert.AreEqual (new Stack<int> (), result.Item2);
+        }
+
+        [Test]
+        public void State_Stack_Bind_Scope()
+        {
+            State<Stack<int>, int> man = push (4)
+                .Void (pop)
+                .Bind<int> ((int x) =>
+                    push(2*x)
+                    .Void (push(3*x))
+                );
+
+            var result = man.runState (new Stack<int> ());
+            Assert.AreEqual (new Stack<int> (new [] { 8, 12, }), result.Item2);
         }
     }
 }
